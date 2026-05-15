@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function Index() {
@@ -7,6 +8,12 @@ export default function Index() {
       <Text className="body-md mt-2 text-center">
         Duolingo-inspired language learning
       </Text>
+      <Link
+        href="/onboarding"
+        className="mt-6 rounded-lingua-lg bg-lingua-purple px-6 py-4 font-poppins-semibold text-white"
+      >
+        Open onboarding
+      </Link>
     </View>
   );
 }
