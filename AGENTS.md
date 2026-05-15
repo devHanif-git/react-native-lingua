@@ -434,6 +434,77 @@ Refactor only when needed.
 
 ---
 
+## JSX Section Comments
+
+For every React Native or Expo component, always separate major UI sections with JSX comments.
+
+Add a descriptive comment before each major block of UI.
+
+Example:
+
+```tsx
+{
+  /* Logo Header */
+}
+<View>...</View>;
+
+{
+  /* Login Form */
+}
+<View>...</View>;
+
+{
+  /* Submit Button */
+}
+<TouchableOpacity>...</TouchableOpacity>;
+```
+
+## Rules
+
+- Every major UI section must have a JSX comment
+- Use beginner-friendly naming
+- Keep comments short and descriptive
+- Prioritize readability for teaching purposes
+- Structure code clearly for easy learning
+
+Good examples:
+
+```tsx
+{
+  /* Header */
+}
+{
+  /* Search Bar */
+}
+{
+  /* Product List */
+}
+{
+  /* Empty State */
+}
+{
+  /* Footer */
+}
+```
+
+Bad examples:
+
+```tsx
+{
+  /* stuff */
+}
+{
+  /* random */
+}
+{
+  /* ui */
+}
+```
+
+This project is built for teaching developers, so clean structure and readability are extremely important.
+
+---
+
 ## Component Creation Rule
 
 Only create reusable components when necessary.
