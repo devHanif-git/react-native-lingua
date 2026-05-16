@@ -3,9 +3,10 @@ import { languages } from "@/data/languages";
 import { useLanguageStore } from "@/store/language-store";
 import type { LanguageId } from "@/types/learning";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useFocusEffect } from "@react-navigation/native";
 import { router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -31,8 +32,15 @@ export default function LanguageSelectionScreen() {
     (state) => state.setSelectedLanguageId,
   );
   const [searchText, setSearchText] = useState("");
-  const [draftLanguageId, setDraftLanguageId] =
-    useState<LanguageId>(selectedLanguageId);
+  const [draftLanguageId, setDraftLanguageId] = useState<LanguageId>(
+    selectedLanguageId ?? "spanish",
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      setDraftLanguageId(selectedLanguageId ?? "spanish");
+    }, [selectedLanguageId]),
+  );
 
   const filteredLanguages = useMemo(() => {
     const normalizedSearch = searchText.trim().toLowerCase();
@@ -55,12 +63,12 @@ export default function LanguageSelectionScreen() {
       return;
     }
 
-    router.replace("/");
+    router.replace("/(tabs)/index");
   };
 
   const handleConfirmPress = () => {
     setSelectedLanguageId(draftLanguageId);
-    router.replace("/");
+    router.replace("/(tabs)/index");
   };
 
   return (
