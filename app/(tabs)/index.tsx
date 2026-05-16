@@ -22,6 +22,52 @@ type SlidingGreetingProps = {
   name: string;
 };
 
+const defaultLanguage = {
+  id: "",
+  name: "",
+  nativeName: "",
+  shortName: "",
+  flagCode: "",
+  flagUrl: "",
+  description: "",
+  accentColor: "#FF6B35",
+  isAvailable: false,
+};
+
+const defaultUnit = {
+  id: "",
+  languageId: "",
+  order: 1,
+  title: "",
+  description: "",
+  level: "beginner",
+  lessonIds: [],
+};
+
+const defaultLesson = {
+  id: "",
+  languageId: "",
+  unitId: "",
+  order: 1,
+  title: "",
+  description: "",
+  level: "beginner",
+  kind: "speaking",
+  estimatedMinutes: 0,
+  xpReward: 0,
+  goals: [],
+  vocabulary: [],
+  phases: [],
+  activities: [],
+  aiTeacherPrompt: {
+    persona: "",
+    lessonContext: "",
+    teachingInstructions: [],
+    correctionStyle: "",
+    closingPrompt: "",
+  },
+};
+
 function SlidingGreeting({ name }: SlidingGreetingProps) {
   const translateX = useRef(new Animated.Value(0)).current;
   const [containerWidth, setContainerWidth] = useState(0);
@@ -111,16 +157,21 @@ export default function HomeScreen() {
   );
   const selectedLanguage =
     languages.find((language) => language.id === selectedLanguageId) ??
-    languages[0];
+    languages[0] ??
+    defaultLanguage;
   const currentUnit =
-    units.find((unit) => unit.languageId === selectedLanguage.id) ?? units[0];
+    units.find((unit) => unit.languageId === selectedLanguage.id) ??
+    units[0] ??
+    defaultUnit;
   const currentLesson =
     lessons.find((lesson) => lesson.languageId === selectedLanguage.id) ??
-    lessons[0];
+    lessons[0] ??
+    defaultLesson;
+  const primaryEmail = user?.primaryEmailAddress?.emailAddress;
   const firstName =
     user?.firstName ??
     user?.username ??
-    user?.primaryEmailAddress?.emailAddress.split("@")[0] ??
+    primaryEmail?.split("@")[0] ??
     "Learner";
   const todayXp = currentLesson.xpReward + currentLesson.vocabulary.length + 2;
   const dailyXpGoal = todayXp + 5;

@@ -4,7 +4,7 @@ import { useLanguageStore } from "@/store/language-store";
 import type { LanguageId } from "@/types/learning";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useFocusEffect } from "@react-navigation/native";
-import { router, Stack } from "expo-router";
+import { type Href, router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useMemo, useState } from "react";
 import {
@@ -23,6 +23,8 @@ const learnerCounts: Record<LanguageId, string> = {
   french: "19.4M learners",
   japanese: "12.7M learners",
 };
+
+const tabsHomeHref = "/(tabs)/index" as Href;
 
 export default function LanguageSelectionScreen() {
   const selectedLanguageId = useLanguageStore(
@@ -58,17 +60,12 @@ export default function LanguageSelectionScreen() {
   }, [searchText]);
 
   const handleBackPress = () => {
-    if (router.canGoBack()) {
-      router.back();
-      return;
-    }
-
-    router.replace("/(tabs)/index");
+    router.replace(tabsHomeHref);
   };
 
   const handleConfirmPress = () => {
     setSelectedLanguageId(draftLanguageId);
-    router.replace("/(tabs)/index");
+    router.replace(tabsHomeHref);
   };
 
   return (
