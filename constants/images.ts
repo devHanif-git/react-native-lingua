@@ -6,7 +6,11 @@ import palace from "@/assets/images/palace.png";
 import streakFire from "@/assets/images/streak-fire.png";
 import treasure from "@/assets/images/treasure.png";
 
+const aiTeacherPortraitUrl =
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&h=240&fit=crop&crop=faces";
+
 export const images = {
+  aiTeacherPortraitUrl,
   earth,
   mascotAuth,
   mascotLogo,

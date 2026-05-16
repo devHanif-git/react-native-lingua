@@ -3,9 +3,10 @@ import { languages } from "@/data/languages";
 import { useLanguageStore } from "@/store/language-store";
 import type { LanguageId } from "@/types/learning";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router, Stack } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
+import { type Href, router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -23,6 +24,8 @@ const learnerCounts: Record<LanguageId, string> = {
   japanese: "12.7M learners",
 };
 
+const tabsHomeHref = "/(tabs)/index" as Href;
+
 export default function LanguageSelectionScreen() {
   const selectedLanguageId = useLanguageStore(
     (state) => state.selectedLanguageId,
@@ -31,8 +34,15 @@ export default function LanguageSelectionScreen() {
     (state) => state.setSelectedLanguageId,
   );
   const [searchText, setSearchText] = useState("");
-  const [draftLanguageId, setDraftLanguageId] =
-    useState<LanguageId>(selectedLanguageId);
+  const [draftLanguageId, setDraftLanguageId] = useState<LanguageId>(
+    selectedLanguageId ?? "spanish",
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      setDraftLanguageId(selectedLanguageId ?? "spanish");
+    }, [selectedLanguageId]),
+  );
 
   const filteredLanguages = useMemo(() => {
     const normalizedSearch = searchText.trim().toLowerCase();
@@ -50,17 +60,12 @@ export default function LanguageSelectionScreen() {
   }, [searchText]);
 
   const handleBackPress = () => {
-    if (router.canGoBack()) {
-      router.back();
-      return;
-    }
-
-    router.replace("/");
+    router.replace(tabsHomeHref);
   };
 
   const handleConfirmPress = () => {
     setSelectedLanguageId(draftLanguageId);
-    router.replace("/");
+    router.replace(tabsHomeHref);
   };
 
   return (

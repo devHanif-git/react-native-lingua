@@ -171,7 +171,7 @@ export function AuthScreen({ mode }: AuthScreenProps) {
       return false;
     }
 
-    router.replace("/");
+    router.replace("/(tabs)/index");
     return true;
   }
 
@@ -293,7 +293,7 @@ export function AuthScreen({ mode }: AuthScreenProps) {
 
       if (createdSessionId) {
         await setActive?.({ session: createdSessionId });
-        router.replace("/");
+        router.replace("/(tabs)/index");
       }
     } catch (error) {
       setFormError(getAuthErrorMessage(error));
