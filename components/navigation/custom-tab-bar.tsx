@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   Animated,
   Easing,
@@ -13,8 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const activeColor = "#6C4EF5";
 const inactiveColor = "#7B8198";
-const tabBarHeight = 82;
-const tabCircleSize = 54;
+const tabBarHeight = 76;
 
 const tabItems: Record<
   string,
@@ -47,47 +46,25 @@ const tabItems: Record<
 
 export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
-  const [barWidth, setBarWidth] = useState(0);
-  const activePosition = useRef(new Animated.Value(0)).current;
-  const tabWidth = barWidth / state.routes.length;
+  const activeScale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    if (!tabWidth) {
-      return;
-    }
-
-    Animated.timing(activePosition, {
-      duration: 140,
+    activeScale.setValue(0.94);
+    Animated.timing(activeScale, {
+      duration: 150,
       easing: Easing.out(Easing.quad),
-      toValue: state.index * tabWidth,
+      toValue: 1,
       useNativeDriver: true,
     }).start();
-  }, [activePosition, state.index, tabWidth]);
+  }, [activeScale, state.index]);
 
   return (
     <View
       pointerEvents="box-none"
-      style={[styles.container, { paddingBottom: Math.max(insets.bottom, 14) }]}
+      style={[styles.container, { paddingBottom: Math.max(insets.bottom, 10) }]}
     >
       {/* Tab Bar */}
-      <View
-        onLayout={(event) => setBarWidth(event.nativeEvent.layout.width)}
-        style={styles.bar}
-      >
-        {/* Active Circle */}
-        {tabWidth ? (
-          <Animated.View
-            pointerEvents="none"
-            style={[
-              styles.activeCircle,
-              {
-                left: tabWidth / 2 - tabCircleSize / 2,
-                transform: [{ translateX: activePosition }],
-              },
-            ]}
-          />
-        ) : null}
-
+      <View style={styles.bar}>
         {/* Tab Buttons */}
         {state.routes.map((route, index) => {
           const options = descriptors[route.key].options;
@@ -129,20 +106,26 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
               style={styles.tabButton}
             >
               {/* Tab Icon */}
-              <View style={isFocused ? styles.activeIconSlot : styles.iconSlot}>
+              <Animated.View
+                style={[
+                  styles.iconSlot,
+                  isFocused ? { transform: [{ scale: activeScale }] } : null,
+                ]}
+              >
                 <Ionicons
-                  color={isFocused ? "#FFFFFF" : inactiveColor}
+                  color={isFocused ? activeColor : inactiveColor}
                   name={tabItem.icon}
-                  size={isFocused ? 25 : 24}
+                  size={isFocused ? 28 : 26}
                 />
-              </View>
+              </Animated.View>
 
               {/* Tab Label */}
-              {!isFocused ? (
-                <Text numberOfLines={1} style={styles.tabLabel}>
-                  {tabItem.label}
-                </Text>
-              ) : null}
+              <Text
+                numberOfLines={1}
+                style={[styles.tabLabel, isFocused ? styles.activeTabLabel : null]}
+              >
+                {tabItem.label}
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -154,48 +137,31 @@ export function CustomTabBar({ state, descriptors, navigation }: BottomTabBarPro
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 18,
-    paddingTop: 10,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    boxShadow: "0 -8px 22px rgba(13, 19, 43, 0.08)",
+    paddingHorizontal: 12,
+    paddingTop: 8,
   },
   bar: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderCurve: "continuous",
-    borderRadius: 28,
-    boxShadow: "0 -8px 24px rgba(13, 19, 43, 0.08)",
     flexDirection: "row",
     height: tabBarHeight,
-    overflow: "hidden",
-    position: "relative",
-  },
-  activeCircle: {
-    alignItems: "center",
-    backgroundColor: activeColor,
-    borderRadius: tabCircleSize / 2,
-    height: tabCircleSize,
-    justifyContent: "center",
-    position: "absolute",
-    top: (tabBarHeight - tabCircleSize) / 2,
-    width: tabCircleSize,
-  },
-  activeIconSlot: {
-    alignItems: "center",
-    height: tabCircleSize,
-    justifyContent: "center",
-    width: "100%",
   },
   iconSlot: {
     alignItems: "center",
-    height: 32,
+    height: 31,
     justifyContent: "center",
     width: "100%",
   },
   tabButton: {
     alignItems: "center",
     flex: 1,
-    gap: 2,
+    gap: 3,
     height: tabBarHeight,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: 10,
     zIndex: 1,
   },
   tabLabel: {
@@ -205,5 +171,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     textAlign: "center",
     width: "100%",
+  },
+  activeTabLabel: {
+    color: activeColor,
   },
 });
