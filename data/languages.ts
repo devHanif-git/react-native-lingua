@@ -4,7 +4,7 @@ export const languages = [
   {
     id: "spanish",
     name: "Spanish",
-    nativeName: "Espanol",
+    nativeName: "Español",
     shortName: "ES",
     flagCode: "es",
     flagUrl: "https://flagcdn.com/w320/es.png",
@@ -15,7 +15,7 @@ export const languages = [
   {
     id: "french",
     name: "French",
-    nativeName: "Francais",
+    nativeName: "Français",
     shortName: "FR",
     flagCode: "fr",
     flagUrl: "https://flagcdn.com/w320/fr.png",
