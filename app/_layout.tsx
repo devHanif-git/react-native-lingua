@@ -6,8 +6,8 @@ import { tokenCache } from "@clerk/expo/token-cache";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import { PostHogProvider } from "posthog-react-native";
+import { useEffect } from "react";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -16,9 +16,18 @@ export const unstable_settings = {
 };
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
+const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_KEY ?? "";
+const POSTHOG_HOST =
+  process.env.EXPO_PUBLIC_POSTHOG_HOST ?? "https://app.posthog.com";
 
 if (!publishableKey) {
   throw new Error("Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file");
+}
+
+if (!POSTHOG_API_KEY) {
+  throw new Error(
+    "Add EXPO_PUBLIC_POSTHOG_KEY to your .env file for PostHog analytics",
+  );
 }
 
 export default function RootLayout() {
@@ -35,10 +44,7 @@ export default function RootLayout() {
   }
 
   return (
-    <PostHogProvider
-      apiKey={process.env.EXPO_PUBLIC_POSTHOG_KEY ?? ""}
-      options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
-    >
+    <PostHogProvider apiKey={POSTHOG_API_KEY} options={{ host: POSTHOG_HOST }}>
       <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
         <Stack
           screenOptions={{
@@ -56,7 +62,10 @@ export default function RootLayout() {
             name="language-selection"
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="oauth-callback" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="oauth-callback"
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         </Stack>
       </ClerkProvider>
