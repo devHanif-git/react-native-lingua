@@ -39,10 +39,10 @@ export const lessons = [
       },
       {
         id: "spanish-vocab-adios",
-        nativeText: "Adios",
+        nativeText: "Adiós",
         translatedText: "Goodbye",
         pronunciation: "ah-DYOS",
-        exampleSentence: "Adios, Sofia.",
+        exampleSentence: "Adiós, Sofia.",
       },
     ],
     phases: [
