@@ -3,8 +3,8 @@ import { languages } from "@/data/languages";
 import { lessons } from "@/data/lessons";
 import { units } from "@/data/units";
 import { useLanguageStore } from "@/store/language-store";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useUser } from "@clerk/expo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -213,14 +213,25 @@ export default function HomeScreen() {
                   12
                 </Text>
               </View>
-              <TouchableOpacity activeOpacity={0.72} className="h-9 w-8 items-end justify-center">
-                <Ionicons name="notifications-outline" size={27} color="#1A1D3A" />
+              <View className="absolute bottom-[-24px] right-[-70px] h-[176px] w-[284px]"></View>
+              <TouchableOpacity
+                activeOpacity={0.72}
+                className="h-9 w-8 items-end justify-center"
+              >
+                <Ionicons
+                  name="notifications-outline"
+                  size={27}
+                  color="#1A1D3A"
+                />
               </TouchableOpacity>
             </View>
           </View>
 
           {/* Daily Goal */}
-          <View className="mt-[28px] flex-row items-center justify-between rounded-[18px] bg-[#FFF7EF] px-5 py-4" style={styles.softCard}>
+          <View
+            className="mt-[28px] flex-row items-center justify-between rounded-[18px] bg-[#FFF7EF] px-5 py-4"
+            style={styles.softCard}
+          >
             <View className="flex-1 pr-4">
               <Text className="font-poppins-semibold text-[15px] leading-[21px] text-[#24304A]">
                 Daily goal
@@ -234,7 +245,10 @@ export default function HomeScreen() {
                 </Text>
               </View>
               <View className="mt-4 h-[7px] overflow-hidden rounded-full bg-[#FFE0BC]">
-                <View className="h-full rounded-full bg-[#FF7A00]" style={{ width: dailyProgress }} />
+                <View
+                  className="h-full rounded-full bg-[#FF7A00]"
+                  style={{ width: dailyProgress }}
+                />
               </View>
             </View>
             <Image
@@ -245,9 +259,13 @@ export default function HomeScreen() {
           </View>
 
           {/* Continue Learning */}
-          <TouchableOpacity activeOpacity={0.88} className="mt-[24px] min-h-[158px] overflow-hidden rounded-[20px] bg-lingua-deep-purple px-5 py-4" style={styles.continueCard}>
+          <TouchableOpacity
+            activeOpacity={0.88}
+            className="mt-[24px] h-[178px] overflow-hidden rounded-[20px] bg-lingua-deep-purple px-5 py-[18px]"
+            style={styles.continueCard}
+          >
             <View className="relative flex-1">
-              <View className="z-10 max-w-[175px]">
+              <View className="z-10 max-w-[170px]">
                 <Text className="font-poppins-semibold text-[15px] leading-[21px] text-white">
                   Continue learning
                 </Text>
@@ -257,13 +275,13 @@ export default function HomeScreen() {
                 <Text className="mt-0.5 font-poppins-medium text-[16px] leading-[23px] text-[#EEE8FF]">
                   {unitLabel}
                 </Text>
-                <View className="mt-4 h-[42px] w-[112px] items-center justify-center rounded-[13px] bg-white">
-                  <Text className="font-poppins-semibold text-[14px] leading-[20px] text-lingua-deep-purple">
-                    Continue
-                  </Text>
-                </View>
               </View>
-              <View className="absolute bottom-[-24px] right-[-70px] h-[176px] w-[284px]">
+              <View className="absolute bottom-0 left-0 z-10 h-[42px] w-[112px] items-center justify-center rounded-[12px] bg-white">
+                <Text className="font-poppins-semibold text-[14px] leading-[20px] text-lingua-deep-purple">
+                  Continue
+                </Text>
+              </View>
+              <View className="absolute bottom-[-65px] right-[-58px] h-[224px] w-[224px]">
                 <Image
                   source={images.palace}
                   resizeMode="contain"
@@ -295,7 +313,10 @@ export default function HomeScreen() {
                 <Text className="font-poppins-semibold text-[15px] leading-[21px] text-lingua-text-primary">
                   Lesson
                 </Text>
-                <Text className="mt-0.5 font-poppins-medium text-[13px] leading-[19px] text-[#7B8198]" numberOfLines={1}>
+                <Text
+                  className="mt-0.5 font-poppins-medium text-[13px] leading-[19px] text-[#7B8198]"
+                  numberOfLines={1}
+                >
                   {currentLesson.title}
                 </Text>
               </View>
@@ -312,7 +333,10 @@ export default function HomeScreen() {
                 <Text className="font-poppins-semibold text-[15px] leading-[21px] text-lingua-text-primary">
                   AI Conversation
                 </Text>
-                <Text className="mt-0.5 font-poppins-medium text-[13px] leading-[19px] text-[#7B8198]" numberOfLines={1}>
+                <Text
+                  className="mt-0.5 font-poppins-medium text-[13px] leading-[19px] text-[#7B8198]"
+                  numberOfLines={1}
+                >
                   Practice {selectedLanguage.name.toLowerCase()} speaking
                 </Text>
               </View>
@@ -334,7 +358,6 @@ export default function HomeScreen() {
               <View className="h-[27px] w-[27px] rounded-full border-2 border-[#8B92AA]" />
             </View>
           </View>
-
         </View>
       </ScrollView>
     </SafeAreaView>
